@@ -11,10 +11,10 @@ game.PlayerEntity = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
         //this.body.gravity = 10;
 
-        this.layer = me.game.world.getChildByName("layer2")[0];
+        //this.layer = me.game.world.getChildByName("layer2")[0];
         //var zIndex10 = me.game.world.getChildByProp("z", 4);
-        this.pos.z = 0;
-        console.log(this.pos)
+        //this.pos.z = 0;
+        //console.log(this.pos)
 
         // max walking & jumping speed
         this.body.setMaxVelocity(5, 2.5);
@@ -106,12 +106,12 @@ game.PlayerEntity = me.Entity.extend({
         /*    if (this.body.overlaps('hole1')){
    
            } */
-
+/* 
         var tile = this.layer.getTile(this.pos.x, this.pos.y);
         if(tile !==null){
         //console.log(tile.pos);  
             //this.layer.z = 4;
-    }
+    } */
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
 
