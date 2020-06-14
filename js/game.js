@@ -12,7 +12,7 @@ var game = {
     // Run on page load.
     onload: function () {
         // Initialize the video.
-        if (!me.video.init(800, 600, { wrapper: "screen", scale: "auto", scaleMethod: "flex-width" })) {
+        if (!me.video.init(800, 600, { wrapper: "screen", scale: "auto", scaleMethod: "flex-width", renderer : me.video.AUTO, subPixel : true})) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
@@ -49,3 +49,8 @@ var game = {
         me.state.change(me.state.PLAY);
     }
 };
+/* 
+// "bootstrap"
+me.device.onReady(function () {
+    game.onload();
+ }); */
