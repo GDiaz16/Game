@@ -18,7 +18,7 @@ game.PlayerEntity = me.Entity.extend({
 
         // max walking & jumping speed
         this.body.setMaxVelocity(5, 2.5);
-        this.body.setFriction(0.4, 0.4);
+        this.body.setFriction(0.6, 0.3);
         this.body.velX = 3;
         this.body.velY = 1.5;
 
@@ -35,63 +35,67 @@ game.PlayerEntity = me.Entity.extend({
 
 
         // define a standing animation (using the first frame)
-        this.renderable.addAnimation("stand", [0]);
+        this.renderable.addAnimation("stand-view-down", [156]);
+        this.renderable.addAnimation("stand-view-up", [42]);
+        this.isUp=true;
 
         // set the standing animation as default
-        this.renderable.setCurrentAnimation("stand");
+        this.renderable.setCurrentAnimation("stand-view-up");
 
-        this.body.setShape(-75, -128);
+        this.body.setShape(-75, -112);
 
-        this.fall = false;
     },
 
     /**
      * update the entity
      */
     update: function (dt) {
-        if (me.input.isKeyPressed('left') && !this.fall) {
+        
+        if (me.input.isKeyPressed('left')) {
 
             // flip the sprite on horizontal axis
             this.renderable.flipX(false);
             // update the default force
             this.body.force.x = -this.body.velX;
             this.body.force.y = -this.body.velY;
-
+            this.isUp = true;
             // change to the walking animation
             if (!this.renderable.isCurrentAnimation("walk-back")) {
                 this.renderable.setCurrentAnimation("walk-back");
             }
-        } else if (me.input.isKeyPressed('right') && !this.fall) {
+        } else if (me.input.isKeyPressed('right')) {
 
             // unflip the sprite
             this.renderable.flipX(true);
             // update the entity velocity
             this.body.force.x = this.body.velX;
             this.body.force.y = this.body.velY;
-
+            this.isUp = false;
             // change to the walking animation
             if (!this.renderable.isCurrentAnimation("walk-front")) {
                 this.renderable.setCurrentAnimation("walk-front");
             }
-        } else if (me.input.isKeyPressed('up') && !this.fall) {
+        } else if (me.input.isKeyPressed('up')) {
 
             // flip the sprite on horizontal axis
             this.renderable.flipX(true);
             // update the default force
             this.body.force.x = this.body.velX;
             this.body.force.y = -this.body.velY;
-
+            this.isUp = true;
             // change to the walking animation
             if (!this.renderable.isCurrentAnimation("walk-back")) {
                 this.renderable.setCurrentAnimation("walk-back");
             }
-        } else if (me.input.isKeyPressed('down') && !this.fall) {
+        } else if (me.input.isKeyPressed('down')) {
 
             // unflip the sprite
             this.renderable.flipX(false);
             // update the entity velocity
             this.body.force.x = -this.body.velX;
             this.body.force.y = this.body.velY;
+            this.isUp = false;
+
             // change to the walking animation
             if (!this.renderable.isCurrentAnimation("walk-front")) {
                 this.renderable.setCurrentAnimation("walk-front");
@@ -99,19 +103,24 @@ game.PlayerEntity = me.Entity.extend({
         } else {
             this.body.force.x = 0;
             this.body.force.y = 0
-            // change to the standing animation
-            //this.renderable.setCurrentAnimation("stand");
+            if (this.isUp) {
+                // change to the standing animation
+                this.renderable.setCurrentAnimation("stand-view-up");
+            }else{
+                this.renderable.setCurrentAnimation("stand-view-down");
+
+            }
         }
 
         /*    if (this.body.overlaps('hole1')){
    
            } */
-/* 
-        var tile = this.layer.getTile(this.pos.x, this.pos.y);
-        if(tile !==null){
-        //console.log(tile.pos);  
-            //this.layer.z = 4;
-    } */
+        /* 
+                var tile = this.layer.getTile(this.pos.x, this.pos.y);
+                if(tile !==null){
+                //console.log(tile.pos);  
+                    //this.layer.z = 4;
+            } */
         // apply physics to the body (this moves the entity)
         this.body.update(dt);
 
@@ -149,8 +158,8 @@ game.BoxEntity = me.CollectableEntity.extend({
     // extending the init function is not mandatory
     // unless you need to add some extra initialization
     init: function (x, y, settings) {
-      // call the parent constructor
-        this._super(me.Entity, 'init', [x, y , settings]);
+        // call the parent constructor
+        this._super(me.Entity, 'init', [x, y, settings]);
         this.body.setShape(-128, -60);
         //this.body.removeShapeAt(0);
         this.renderable.addAnimation("stand", [2]);
@@ -165,32 +174,32 @@ game.BoxEntity = me.CollectableEntity.extend({
 
     },
 
-    
+
 
     // this function is called by the engine, when
     // an object is touched by something (here collected)
-    onCollision : function (response, other) {
-      // do something when collected
+    onCollision: function (response, other) {
+        // do something when collected
 
-      // make sure it cannot be collected "again"
-      //this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        // make sure it cannot be collected "again"
+        //this.body.setCollisionMask(me.collision.types.NO_OBJECT);
 
-      // remove it
-      me.game.world.removeChild(this);
+        // remove it
+        me.game.world.removeChild(this);
 
-      return false
+        return false
     }
-  });
+});
 
-  game.WallEntity = me.Entity.extend({
+game.DoorEntity = me.Entity.extend({
     // extending the init function is not mandatory
     // unless you need to add some extra initialization
     init: function (x, y, settings) {
-      // call the parent constructor
-        this._super(me.Entity, 'init', [x, y , settings]);
+        // call the parent constructor
+        this._super(me.Entity, 'init', [x, y, settings]);
         this.body.removeShapeAt(0);
         //this.body.toIso();
-        this.body.translate(385,-512);
+        this.body.translate(385, -512);
         this.body.alpha = 0;
 
         //this.body.scale(0.8);
@@ -199,15 +208,15 @@ game.BoxEntity = me.CollectableEntity.extend({
 
     // this function is called by the engine, when
     // an object is touched by something (here collected)
-    onCollision : function (response, other) {
-      // do something when collected
+    onCollision: function (response, other) {
+        // do something when collected
 
-      // make sure it cannot be collected "again"
-      //this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        // make sure it cannot be collected "again"
+        //this.body.setCollisionMask(me.collision.types.NO_OBJECT);
 
-      // remove it
-      me.game.world.removeChild(this);
+        // remove it
+        me.game.world.removeChild(this);
 
-      return false
+        return false
     }
-  });
+});

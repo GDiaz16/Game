@@ -33,7 +33,7 @@ var game = {
 
         // add our player entity in the entity pool
         me.pool.register("mainPlayer", game.PlayerEntity);
-        me.pool.register("wall", game.WallEntity);
+        me.pool.register("door", game.DoorEntity);
         me.pool.register("box", game.BoxEntity);
 
 
