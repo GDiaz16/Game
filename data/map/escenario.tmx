@@ -28,7 +28,11 @@
   <object id="104" x="1898" y="1814"/>
   <object id="105" x="1914" y="1678"/>
   <object id="106" x="2092" y="1848"/>
-  <object id="179" x="2190" y="262" width="84" height="84"/>
+  <object id="179" name="me.LevelEntity" x="2183" y="225" width="84" height="66.5">
+   <properties>
+    <property name="to" value="escenario2"/>
+   </properties>
+  </object>
   <object id="180" name="door" x="2909" y="823"/>
  </objectgroup>
  <objectgroup id="15" name="boxes">

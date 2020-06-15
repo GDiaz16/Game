@@ -113,7 +113,11 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="doors">
-  <object id="65" x="1650.5" y="2041" width="110.5" height="90.5"/>
+  <object id="65" name="me.LevelEntity" x="1650.5" y="2041" width="59.8333" height="90.5">
+   <properties>
+    <property name="to" value="escenario3"/>
+   </properties>
+  </object>
   <object id="66" x="1560.5" y="2009.5"/>
  </objectgroup>
  <objectgroup id="2" name="mainPlayer">

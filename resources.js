@@ -35,6 +35,16 @@ game.resources = [
         "src": "data/img/map/kenney_prototypePack_2.3/Sample.png"
     },
     {
+        "name": "library-sheet",
+        "type": "image",
+        "src": "data/img/map/library-sheet.png"
+    },
+    {
+        "name": "prototype-front",
+        "type": "image",
+        "src": "data/img/map/prototype-front.png"
+    },
+    {
         "name": "prototype-sheet",
         "type": "image",
         "src": "data/img/map/prototype-sheet.png"
@@ -70,23 +80,38 @@ game.resources = [
         "src": "data/map/escenario.tmx"
     },
     {
+        "name": "escenario2",
+        "type": "tmx",
+        "src": "data/map/escenario2.tmx"
+    },
+    {
+        "name": "escenario3",
+        "type": "tmx",
+        "src": "data/map/escenario3.tmx"
+    },
+    {
+        "name": "angle",
+        "type": "tsx",
+        "src": "data/map/angle.tsx"
+    },
+    {
         "name": "dungeon-min",
         "type": "tsx",
         "src": "data/map/dungeon-min.tsx"
     },
     {
-        "name": "dungeon",
+        "name": "library",
         "type": "tsx",
-        "src": "data/map/dungeon.tsx"
+        "src": "data/map/library.tsx"
+    },
+    {
+        "name": "prototype-front",
+        "type": "tsx",
+        "src": "data/map/prototype-front.tsx"
     },
     {
         "name": "prototype",
         "type": "tsx",
         "src": "data/map/prototype.tsx"
-    },
-    {
-        "name": "prueba",
-        "type": "tsx",
-        "src": "data/map/prueba.tsx"
     }
 ];
