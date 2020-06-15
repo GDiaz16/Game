@@ -113,7 +113,7 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="doors">
-  <object id="65" name="me.LevelEntity" x="1650.5" y="2041" width="59.8333" height="90.5">
+  <object id="65" name="me.LevelEntity" x="1569.17" y="1954" width="173.833" height="176.5">
    <properties>
     <property name="to" value="escenario3"/>
    </properties>

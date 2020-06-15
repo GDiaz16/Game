@@ -28,7 +28,7 @@
   <object id="104" x="1898" y="1814"/>
   <object id="105" x="1914" y="1678"/>
   <object id="106" x="2092" y="1848"/>
-  <object id="179" name="me.LevelEntity" x="2183" y="225" width="84" height="66.5">
+  <object id="179" name="me.LevelEntity" x="2145.5" y="210" width="128.5" height="136">
    <properties>
     <property name="to" value="escenario2"/>
    </properties>
