@@ -8,8 +8,8 @@ game.PlayScreen = me.Stage.extend({
                 level.addTo(me.game.world, true);
                 level.orientation = 'isometric';*/
         me.sys.gravity = 0;
-        me.levelDirector.loadLevel("escenario");
-        me.game.viewport.currentTransform.scale(0.8);
+        me.levelDirector.loadLevel("escenario3");
+        me.game.viewport.currentTransform.scale(0.75);
         me.game.viewport.currentTransform.translate(200,200);
 
 
@@ -18,8 +18,8 @@ game.PlayScreen = me.Stage.extend({
 
         // Add our HUD to the game world, add it last so that this is on top of the rest.
         // Can also be forced by specifying a "Infinity" z value to the addChild function.
-        this.HUD = new game.HUD.Container();
-        me.game.world.addChild(this.HUD);
+        //this.HUD = new game.HUD.Container();
+        //me.game.world.addChild(this.HUD);
 
 
 

@@ -23,4 +23,16 @@ body {
     display: block;
     max-width: 90vw;
     max-height: 90vh;
+    position: relative;
+}
+
+.home-screen{
+    position: absolute;
+    left: 5vw;
+    z-index: 2;
+    background-color: rgba(52, 138, 131, 0.603);
+}
+
+.btn-play{
+margin: 200px;
 }

@@ -1,15 +1,4 @@
-game.TitleScreen = me.Stage.extend({
-    /**
-     *  action to perform on state change
-     */
-    onResetEvent: function() {
-        ; // TODO
-    },
+function hide(){
+    document.getElementById("home-screen").style.display = "none";
+}
 
-    /**
-     *  action to perform when leaving this screen (state change)
-     */
-    onDestroyEvent: function() {
-        ; // TODO
-    }
-});
