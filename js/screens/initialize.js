@@ -31,8 +31,8 @@ function restart() {
     document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL1 + '</p>';
     document.getElementById('health').innerHTML = '<p>Salud: +' + game.data.health + '</p>';
     //Reiniciar musica
-    me.audio.stopTrack();
-    me.audio.playTrack('SOUNDL1', 0.4);
+    //me.audio.stopTrack();
+    //me.audio.playTrack('SOUNDL1', 0.4);
     //Ocultar barra de "perdedor"
     document.getElementById('in-game').style.display = 'none';
 
@@ -48,8 +48,8 @@ function newTry(){
     document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL1 + '</p>';
     document.getElementById('health').innerHTML = '<p>Salud: +' + game.data.health + '</p>';
     //Reiniciar musica
-    me.audio.stopTrack();
-    me.audio.playTrack('SOUNDL1', 0.4);
+    //me.audio.stopTrack();
+    //me.audio.playTrack('SOUNDL1', 0.4);
     //Ocultar barra de "perdedor"
     document.getElementById('in-game').style.display = 'none';
 }
