@@ -22,7 +22,7 @@ var game = {
         }
 
         // Initialize the audio.
-        me.audio.init("mp3,ogg");
+        me.audio.init("MP3,ogg");
 
         // Cargar todos los recursos contenidos en el archivo resources.js
         me.loader.preload(game.resources, this.loaded.bind(this));
