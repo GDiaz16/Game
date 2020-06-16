@@ -14,11 +14,11 @@ game.PlayScreen = me.Stage.extend({
         //Trasladar la camara para que el enfoque sobre el jugador sea mejor
         me.game.viewport.currentTransform.translate(200,200);
         //Musica del juego
-        me.audio.playTrack('SOUNDL1', 0.4);
+        //me.audio.playTrack('SOUNDL1', 0.4);
 
     },
     onDestroyEvent : function () {
         //Detener la musica al salir
-        me.audio.stopTrack();
+        //me.audio.stopTrack();
       }
 });
