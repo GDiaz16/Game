@@ -111,7 +111,7 @@
     <property name="UpDown" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="203" name="EnemyEntity" type="enemy" x="550.545" y="1931.24" width="591.667" height="73.4545">
+  <object id="203" name="EnemyEntity" type="enemy" x="711.545" y="1941.24" width="424.667" height="33.4545">
    <properties>
     <property name="UpDown" type="bool" value="false"/>
    </properties>
@@ -126,12 +126,12 @@
     <property name="UpDown" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="207" name="EnemyEntity" type="enemy" x="1571.55" y="775.242" width="556.667" height="92.4545">
+  <object id="207" name="EnemyEntity" type="enemy" x="1565.55" y="773.242" width="556.667" height="92.4545">
    <properties>
     <property name="UpDown" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="208" name="EnemyEntity" type="enemy" x="2346.55" y="480.242" width="116.667" height="587.455">
+  <object id="208" name="EnemyEntity" type="enemy" x="2361.55" y="600.242" width="93.6667" height="432.455">
    <properties>
     <property name="UpDown" type="bool" value="true"/>
    </properties>

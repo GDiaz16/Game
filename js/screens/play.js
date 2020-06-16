@@ -1,37 +1,24 @@
 game.PlayScreen = me.Stage.extend({
     /**
-     *  action to perform on state change
+     *  Accion que se ejecuta cuando inicia el juego
      */
     onResetEvent: function () {
-        // load a level
-        /*         var level = new me.TMXTileMap('escenario', me.loader.getTMX('escenario'))
-                level.addTo(me.game.world, true);
-                level.orientation = 'isometric';*/
+        //Dejar el juego sin gravedad
         me.sys.gravity = 0;
+        //Evitar que el juego se pause cuando pierda el foco de la ventana
         me.sys.pauseOnBlur = false;
+        //Cargar el primer nivel
         me.levelDirector.loadLevel("escenario");
+        //Alejar la camara de la pantalla para tener vista mas amplia
         me.game.viewport.currentTransform.scale(0.75);
+        //Trasladar la camara para que el enfoque sobre el jugador sea mejor
         me.game.viewport.currentTransform.translate(200,200);
-
-
-        // reset the score
-        game.data.score = 0;
-
-        // Add our HUD to the game world, add it last so that this is on top of the rest.
-        // Can also be forced by specifying a "Infinity" z value to the addChild function.
-        //this.HUD = new game.HUD.Container();
-        //me.game.world.addChild(this.HUD);
-
-
-
+        //Musica del juego
+        me.audio.playTrack('SOUNDL1', 0.4);
 
     },
-
-    /**
-     *  action to perform when leaving this screen (state change)
-     */
-    onDestroyEvent: function () {
-        // remove the HUD from the game world
-        me.game.world.removeChild(this.HUD);
-    }
+    onDestroyEvent : function () {
+        //Detener la musica al salir
+        me.audio.stopTrack();
+      }
 });

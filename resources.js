@@ -1,6 +1,16 @@
 game.resources = [
     {
-        "name": "dst-inertexponent",
+        "name": "SOUNDL1",
+        "type": "audio",
+        "src": "data/bgm/"
+    },
+    {
+        "name": "SOUNDL2",
+        "type": "audio",
+        "src": "data/bgm/"
+    },
+    {
+        "name": "SOUNDL3",
         "type": "audio",
         "src": "data/bgm/"
     },

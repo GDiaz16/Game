@@ -1,5 +1,5 @@
 /**
- * Player Entity
+ * Entidad jugador
  */
 game.PlayerEntity = me.Entity.extend({
 
@@ -7,103 +7,97 @@ game.PlayerEntity = me.Entity.extend({
      * constructor
      */
     init: function (x, y, settings) {
-        // call the constructor
+        // Llamar el constructor
         this._super(me.Entity, 'init', [x, y, settings]);
-        //this.body.gravity = 10;
 
-        //this.layer = me.game.world.getChildByName("layer2")[0];
-        //var zIndex10 = me.game.world.getChildByProp("z", 4);
-        //this.pos.z = 0;
-        //console.log(this.pos)
 
-        // max walking & jumping speed
+        // Velocidad y friccion maxima del jugador
         this.body.setMaxVelocity(5, 2.5);
         this.body.setFriction(0.6, 0.3);
         this.body.velX = 3;
         this.body.velY = 1.5;
 
-        // set the display to follow our position on both axis
+        // Configurar el viewport para que siga al jugador en ambos ejes
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH, 0.4);
 
-        // ensure the player is updated even when outside of the viewport
+        // Asegurar que el jugador sigue funcionando aun si sale de la pantalla
         this.alwaysUpdate = true;
 
-        // define a basic walking animation (using all frames)
+        // Animaciones para caminar
         this.renderable.addAnimation("walk-back", [54, 55, 56, 57, 58, 59, 60, 62, 63, 65]);
-
         this.renderable.addAnimation("walk-front", [3, 4, 5, 6, 7, 8, 9, 10, 11, 13]);
 
 
-        // define a standing animation (using the first frame)
+        // Animaciones al estar quieto
         this.renderable.addAnimation("stand-view-down", [156]);
         this.renderable.addAnimation("stand-view-up", [42]);
         this.isUp = true;
 
-        // set the standing animation as default
+        // Establecer la animacion por defecto al iniciar el juego
         this.renderable.setCurrentAnimation("stand-view-up");
 
+        //Correr la caja de colision del objeto para que quede en sus pies
         this.body.setShape(-75, -112);
 
     },
 
     /**
-     * update the entity
+     * Actualizar la entidad
      */
     update: function (dt) {
-
-        if (me.input.isKeyPressed('left')) {
-
-            // flip the sprite on horizontal axis
+         if (me.input.isKeyPressed('left')) {
+            // Girar la animacion respecto al eje x
             this.renderable.flipX(false);
-            // update the default force
+            // Empujar el personaje para hacerlo moverse
             this.body.force.x = -this.body.velX;
             this.body.force.y = -this.body.velY;
             this.isUp = true;
-            // change to the walking animation
+            // Mostrar animacion
             if (!this.renderable.isCurrentAnimation("walk-back")) {
                 this.renderable.setCurrentAnimation("walk-back");
             }
         } else if (me.input.isKeyPressed('right')) {
 
-            // unflip the sprite
+            // Girar la animacion respecto al eje x
             this.renderable.flipX(true);
-            // update the entity velocity
+            // Empujar el personaje para hacerlo moverse
             this.body.force.x = this.body.velX;
             this.body.force.y = this.body.velY;
             this.isUp = false;
-            // change to the walking animation
+            // Mostrar animacion
             if (!this.renderable.isCurrentAnimation("walk-front")) {
                 this.renderable.setCurrentAnimation("walk-front");
             }
         } else if (me.input.isKeyPressed('up')) {
 
-            // flip the sprite on horizontal axis
+            // Girar la animacion respecto al eje x
             this.renderable.flipX(true);
             // update the default force
             this.body.force.x = this.body.velX;
             this.body.force.y = -this.body.velY;
             this.isUp = true;
-            // change to the walking animation
+            // Mostrar animacion
             if (!this.renderable.isCurrentAnimation("walk-back")) {
                 this.renderable.setCurrentAnimation("walk-back");
             }
         } else if (me.input.isKeyPressed('down')) {
-            // unflip the sprite
+            // Girar la animacion respecto al eje x
             this.renderable.flipX(false);
             // update the entity velocity
             this.body.force.x = -this.body.velX;
             this.body.force.y = this.body.velY;
             this.isUp = false;
 
-            // change to the walking animation
+            // Mostrar animacion
             if (!this.renderable.isCurrentAnimation("walk-front")) {
                 this.renderable.setCurrentAnimation("walk-front");
             }
         } else {
+            //Al estar quieto mantener al personaje en su posicion
             this.body.force.x = 0;
             this.body.force.y = 0
             if (this.isUp) {
-                // change to the standing animation
+                // Mostrar animacion
                 this.renderable.setCurrentAnimation("stand-view-up");
             } else {
                 this.renderable.setCurrentAnimation("stand-view-down");
@@ -111,44 +105,30 @@ game.PlayerEntity = me.Entity.extend({
             }
         }
 
-        /*    if (this.body.overlaps('hole1')){
-   
-           } */
-        /* 
-                var tile = this.layer.getTile(this.pos.x, this.pos.y);
-                if(tile !==null){
-                //console.log(tile.pos);  
-                    //this.layer.z = 4;
-            } */
-        // apply physics to the body (this moves the entity)
+        // Actualizar la fisica del personaje
         this.body.update(dt);
 
-        // handle collisions against other shapes
+        // Verificar colisiones con otros personajes
         me.collision.check(this);
 
-        // return true if we moved or if the renderable was updated
+        // Retornar verdadero si nos movimos
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
     },
 
-    /**
-      * colision handler
-      * (called when colliding with other objects)
-      */
     onCollision: function (response, other) {
 
-        // Make all other objects solid
+        // Con true los otros objectos responden al empuje de este objeto
         return true;
     }
 });
 
 /**
- * a Coin entity
+ * Entidad caja
  */
 game.BoxEntity = me.CollectableEntity.extend({
-    // extending the init function is not mandatory
-    // unless you need to add some extra initialization
+    // Extender la funcion padre
     init: function (x, y, settings) {
-        // call the parent constructor
+        // Llamar al constructor del padre
         this._super(me.Entity, 'init', [x, y, settings]);
         this.body.setShape(-128, -60);
         this.renderable.addAnimation("stand", [2]);
@@ -156,12 +136,8 @@ game.BoxEntity = me.CollectableEntity.extend({
 
     },
 
-
-
-    // this function is called by the engine, when
-    // an object is touched by something (here collected)
     onCollision: function (response, other) {
-        //Restar una caja al nivel en el que se encuentre
+        //Restar una caja al nivel en el que se encuentre y actualizar el marcador
         if (other.type == 'player') {
             switch (me.levelDirector.getCurrentLevel().name) {
                 case 'escenario':
@@ -180,25 +156,22 @@ game.BoxEntity = me.CollectableEntity.extend({
 
                     break;
             }
-            // Remover una caja cuando se toca
+            // Remover una caja cuando es tocada por el jugador
             me.game.world.removeChild(this);
         }
-
-
-
+        //Al retornar falso indicamos que no se mueve cuando la tocan
         return false
     }
 });
 
 game.LevelEntity = me.Entity.extend({
-    // extending the init function is not mandatory
-    // unless you need to add some extra initialization
+
     init: function (x, y, settings) {
+        //Obtener el nivel al que apunta el objeto
         this.level = settings.nextLevel;
-        // call the parent constructor
         this._super(me.Entity, 'init', [x, y, settings]);
     },
-
+    //Funcion que actuliza el marcador al cambiar de nivel
     updateParams: function () {
         switch (this.level) {
             case 'escenario':
@@ -221,16 +194,18 @@ game.LevelEntity = me.Entity.extend({
     },
 
 
-    // this function is called by the engine, when
-    // an object is touched by something 
     onCollision: function (response, other) {
+        //Mostrar un anuncio si no se han recolectado todas las cajas
+        //de lo contrario cargar y pasar al siguiente nivel
         switch (this.level) {
-
             case 'escenario2':
                 if (game.data.remainingBoxesL1 > 0) {
                     document.getElementById('in-game').style.display = 'block';
                 } else {
                     this.updateParams(this.level);
+                    me.audio.stopTrack();
+                    //comenzar nueva cancion
+                    me.audio.playTrack('SOUNDL2', 0.4);
                     me.levelDirector.loadLevel(this.level);
                 }
                 break;
@@ -240,6 +215,9 @@ game.LevelEntity = me.Entity.extend({
                     document.getElementById('in-game').style.display = 'block';
                 } else {
                     this.updateParams(this.level);
+                    me.audio.stopTrack();
+                    //comenzar nueva cancion
+                    me.audio.playTrack('SOUNDL3', 0.4);
                     me.levelDirector.loadLevel(this.level);
                 }
                 break;
@@ -247,10 +225,14 @@ game.LevelEntity = me.Entity.extend({
                 if (game.data.remainingBoxesL3 > 0) {
                     document.getElementById('in-game').style.display = 'block';
                 } else {
+                    //Si es el ultimo nivel mostrar la pantalla de ganador
                     document.getElementById('result').innerHTML = '<h2>Ganaste!!</h2>';
                     document.getElementById('description').innerHTML = '<p>Completaste todas las cajas y los monstruos no pudieron contigo</p>';
                     document.getElementById('end-screen').style.backgroundColor = 'rgba(17, 182, 39, 0.596)';
                     document.getElementById('end-screen').style.display = 'block';
+                    //detener sonido al finalizar
+                    me.audio.stopTrack();
+
 
                 }
                 break;
@@ -262,74 +244,76 @@ game.LevelEntity = me.Entity.extend({
     }
 });
 
+//Entidad enemigo
 game.EnemyEntity = me.Sprite.extend(
     {
         init: function (x, y, settings) {
-            // save the area size as defined in Tiled
+            // Guardar el tamaño de la caja como se tiene en Tiled
             var width = settings.width;
             var height = settings.height;
             this.lastTime = 0;
-            // define this here instead of tiled
+            //Imagen del enemigo
             settings.image = "ghost";
 
-            // adjust the size setting information to match the sprite size
-            // so that the entity object is created with the right size
+            //Ajustar el tamaño del sprite para que la animacion y el personaje
+            //se carguen correctamente
             settings.framewidth = settings.width = 172;
             settings.frameheight = settings.height = 179;
 
-            // call the parent constructor
+            // Llamar al constructor del padre
             this._super(me.Sprite, 'init', [x, y, settings]);
 
-            // add a physic body
+            // Agregar un cuerpo fisico
             this.body = new me.Body(this);
-            // add a default collision shape
+            // Agregar una caja de colision por defecto
             this.body.addShape(new me.Rect(this.width / 3, this.height / 2, this.width / 2, this.height / 2));
-            // configure max speed and friction
+            // Establecer velocidad maxima y friccion
             this.body.setMaxVelocity(3, 1.5);
             this.body.setFriction(0.4, 0.2);
-            // enable physic collision (off by default for basic me.Renderable)
+            // Habilitar colision 
             this.isKinematic = false;
-
+            //Agregar animaciones para caminar
             this.addAnimation("walk-view-down", [1, 2, 3, 4, 5, 6, 7, 8]);
             this.addAnimation("walk-view-up", [9, 10, 11, 12, 13, 14, 15, 16, 17]);
-
+            //Variable que indica si el personaje sube o baja
             this.UpDown = settings.UpDown;
 
             if (this.UpDown) {
-                // set start/end position based on the initial area size
+                // Establecer posicion inicial y final basado en el tamaño original establecido en 
+                //Tilde (el creador de mapas)
                 x = this.pos.x - 2 * this.width;
                 this.startX = x;
                 this.pos.x = this.endX = x + width - this.width;
 
-                y = this.pos.y - this.height;//-height;
-                this.startY = y;//-2*height;
+                y = this.pos.y - this.height;
+                this.startY = y;
                 this.pos.y = this.endY = y + height - this.height;
             } else {
-                // set start/end position based on the initial area size
-                x = this.pos.x;//+ this.height;
+                // Establecer posicion inicial y final basado en el tamaño original establecido en 
+                //Tilde (el creador de mapas)
+                x = this.pos.x;
                 this.startX = x;
                 this.pos.x = this.endX = x + width - this.width;
 
-                y = this.pos.y + this.height;//-height;
-                this.startY = y;//-2*height;
+                y = this.pos.y + this.height;
+                this.startY = y;
                 this.pos.y = this.endY = y + height - this.height;
             }
-            // to remember which side we were walking
+            // Indica hacia que lado esta caminando el personaje
             this.walkLeft = false;
 
-            // make it "alive"
+            // Hacerlo vivir (moverse)
             this.alive = true;
+
+            //Actualizarlo asi este fuera de la pantalla
             this.alwaysUpdate = true;
 
 
         },
 
-        // manage the enemy movement
         update: function (dt) {
-
+            //Establecer las animaciones del enemigo, al igual que con el personaje principal
             if (this.UpDown) {
-
-
                 if (this.alive) {
 
                     if (this.walkLeft && this.pos.y <= this.startY) {
@@ -340,7 +324,6 @@ game.EnemyEntity = me.Sprite.extend(
                             this.setCurrentAnimation("walk-view-down");
                             this.flipX(true);
                         }
-
                     }
                     else if (!this.walkLeft && this.pos.y >= this.endY) {
                         this.walkLeft = true;
@@ -350,11 +333,8 @@ game.EnemyEntity = me.Sprite.extend(
                         if (!this.isCurrentAnimation("walk-view-up")) {
                             this.setCurrentAnimation("walk-view-up");
                             this.flipX(false);
-
                         }
                     }
-
-
                 }
                 else {
                     this.body.force.x = 0;
@@ -362,8 +342,6 @@ game.EnemyEntity = me.Sprite.extend(
                 }
             } else {
                 if (this.alive) {
-                    //this.setCurrentAnimation("walk-view-down");
-
                     if (this.walkLeft && this.pos.x <= this.startX - this.width) {
                         this.walkLeft = false;
                         this.body.force.x = this.body.maxVel.x;
@@ -380,54 +358,52 @@ game.EnemyEntity = me.Sprite.extend(
                         if (!this.isCurrentAnimation("walk-view-up")) {
                             this.setCurrentAnimation("walk-view-up");
                             this.flipX(true);
-
                         }
                     }
-
-
                 }
                 else {
                     this.body.force.x = 0;
                     this.body.force.y = 0;
-
                 }
             }
-            // check & update movement
+            // Verificar movimientos
             this.body.update(dt);
 
-            // handle collisions against other shapes
+            // Verificar colisiones
             me.collision.check(this);
 
-            // return true if we moved or if the renderable was updated
+            // Retornar verdadero si nos movimos o si el enemigo se actulizo
             return (this._super(me.Sprite, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
         },
 
-        /**
-         * colision handler
-         * (called when colliding with other objects)
-         */
         onCollision: function (response, other) {
-            //Reducir el puntaje de salud
+            //Reducir el puntaje de salud solo si han pasado mas de 600ms
+            //para evitar que con un toque se pierdan todos los puntos
             if (game.data.health >= 1 && other.type == 'player') {
                 var d = new Date();
                 if (d.getTime() - this.lastTime > 600) {
                     console.log(d.getTime() - this.lastTime);
-
                     this.lastTime = d.getTime();
                     game.data.health = game.data.health - 1;
                     document.getElementById('health').innerHTML = '<p>Salud: +' + game.data.health + '</p>';
                 }
-            } else if (game.data.health <= 1) {
+            }
+            //Si el puntaje es igual a cero, se pierde el juego y se muestra el mensaje 
+            else if (game.data.health <= 1) {
                 document.getElementById('result').innerHTML = '<h2>Perdiste</h2>';
                 document.getElementById('description').innerHTML = '<p>Los monstruos han acabado contigo</p>';
                 document.getElementById('end-screen').style.backgroundColor = 'rgba(182, 17, 17, 0.596)';
                 document.getElementById('end-screen').style.display = 'block';
+                me.audio.stopTrack();
+                newTry();
+
 
             }
+            //No colisionar con las paredes si el objeto es efectivamente una pared
             if (response.b.body.collisionType !== me.collision.types.WORLD_SHAPE) {
                 return false;
             }
-            // Make all other objects solid
+            // De lo contrario no producir colision
             return false;
         }
     });

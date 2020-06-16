@@ -1,10 +1,7 @@
-
-
-
 /* Game namespace */
 var game = {
 
-    // an object where to store game information
+    // Un ubjeto con el cual se almacena el puntaje del juego
     data: {
         // score
         remainingBoxesL1: 7,
@@ -14,10 +11,12 @@ var game = {
     },
 
 
-    // Run on page load.
+    // Correr cuando se carga el juego
     onload: function () {
-        // Initialize the video.
-        if (!me.video.init(800, 600, { wrapper: "screen", scale: "auto", scaleMethod: "flex-width" })) {
+        // Inicializar el canvas con 800x600 de tamaño y con la propiedad flex
+        //que escala el juego automaticamente, sin embargo es necesario reiniciarlo para que se 
+        //produzca el cambio
+        if (!me.video.init(640, 480, { wrapper: "screen", scale: "auto", scaleMethod: "flex" })) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
@@ -25,18 +24,16 @@ var game = {
         // Initialize the audio.
         me.audio.init("mp3,ogg");
 
-        // set and load all resources.
-        // (this will also automatically switch to the loading screen)
+        // Cargar todos los recursos contenidos en el archivo resources.js
         me.loader.preload(game.resources, this.loaded.bind(this));
     },
 
-    // Run on game resources loaded.
+    // Cuando se cargan todos los archivos se inicia el juego
     loaded: function () {
-        //me.state.set(me.state.MENU, new game.TitleScreen());
         me.state.set(me.state.PLAY, new game.PlayScreen());
         me.debug.renderHitBox = true;
 
-        // add our player entity in the entity pool
+        // Agregar las entidades que se van a usar
         me.pool.register("mainPlayer", game.PlayerEntity);
         me.pool.register("LevelEntity", game.LevelEntity);
         me.pool.register("box", game.BoxEntity);
@@ -44,19 +41,14 @@ var game = {
 
 
 
-        // enable the keyboard
+        // Activar los eventos de las teclas de flechas
         me.input.bindKey(me.input.KEY.LEFT, "left");
         me.input.bindKey(me.input.KEY.RIGHT, "right");
         // map up and down
         me.input.bindKey(me.input.KEY.UP, "up");
         me.input.bindKey(me.input.KEY.DOWN, "down");
 
-        // Start the game.
+        // Iniciar el juego
         me.state.change(me.state.PLAY);
     }
 };
-/*
-// "bootstrap"
-me.device.onReady(function () {
-    game.onload();
- }); */

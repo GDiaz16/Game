@@ -6,41 +6,35 @@
     <link rel="stylesheet" type="text/css" media="screen" href="index.css">
     <meta id="viewport" name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- Iconos de la libreria -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Google fonts utilizados en el juego // Se recomienda tener internet para que el juego 
+    funcione correctamente-->
     <link href='https://fonts.googleapis.com/css?family=Kavoon' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
 
-
-    <!--         <link rel="apple-touch-icon" href="icons/touch-icon-iphone-60x60.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="icons/touch-icon-ipad-76x76.png"> -->
-    <!--         <link rel="apple-touch-icon" sizes="120x120" href="icons/touch-icon-iphone-retina-120x120.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="icons/touch-icon-ipad-retina-152x152.png"> -->
     <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
-    <!-- Canvas placeholder -->
+    <!-- Contenedor donde se va a alojar el canvas-->
     <div id="screen">
+        <!-- Menu de inicio -->
         <div class="screen" id="home-screen">
             <div class="title">
                 <h2>Bulder Game</h2>
             </div>
             <div class="introduccion">
                 <p>
-                    En Bulder Game debes ayudar a Johny el caza recompensas a recolectar todas las cajas que contienen
-                    tesoros, cuando las hayas recolectado todas debes ir hasta la puerta, esta está señalada con una
-                    flecha. Al llegar al tercer y ultimo nivel y completes las cajas podras llegar al podio y habrás
-                    completado la misión.
-
-                    Usa las teclas de dirección (← →↑↓ )para desplazarte por la pista.
+                    En Bulder Game debes ayudar a Johny el caza recompensas a recolectar todas las cajas que contienen tesoros, evitando al tiempo que los monstruos acaben contigo. Cuando las hayas recolectado todas debes ir hasta la puerta, (esta está señalada con una flecha) y asi pasarás al siguiente nivel. Al llegar al tercer y último nivel con las cajas completas podras llegar al podio y habrás completado la misión. Usa las teclas de dirección (← →↑↓ )para desplazarte por el mapa y la barra de puntos para saber cuantas cajas faltan y si Johny está a punto de morir.
                 </p>
             </div>
             <button class='btn-play' onclick="hide()">Jugar</button>
             <p>Autoria: Enderson Gonzalo Diaz Muñoz</p>
         </div>
-
+        <!-- Barra de juego -->
         <div class="game-screen">
             <div class="remaining-boxes" id="rem-boxes">
                 <p>Cajas faltantes: +10</p>
@@ -56,12 +50,12 @@
             </div>
             <div class="credits" id="">
                 <p>Bulder Game </p>
-                <p>by: Gonzalo Diaz 
-                    
+                <p>by: Gonzalo Diaz
+
                 </p>
             </div>
         </div>
-
+        <!--Barra de informacion donde se muestra el estado final, ganado o perdido -->
         <div class="screen" id="end-screen">
             <div class="title" id="result">
                 <h2>Ganaste!</h2>
@@ -86,44 +80,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-sham.min.js"></script>
 
-    <!-- melonJS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/melonjs@7/dist/melonjs.min.js"></script>
+    <!-- Libreria melonJS  -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/melonjs@7/dist/melonjs.min.js"></script>-->
+    <script src="lib/melonjs.min.js"></script>
 
-    <!-- Plugin(s) -->
+    <!-- Plugin para hacer debugging y ver los contornos de las figuras para los colliders-->
     <script src="https://cdn.jsdelivr.net/npm/melonjs@7/plugins/debug/debugPanel.js"></script>
 
-    <!-- build:js js/app.min.js -->
 
-    <!-- Game Scripts -->
+    <!-- Scripts del juego -->
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="resources.js"></script>
-
     <script type="text/javascript" src="js/entities/entities.js"></script>
-    <!--         <script type="text/javascript" src="js/entities/HUD.js"></script>
- -->
     <script type="text/javascript" src="js/screens/title.js"></script>
-    <script type="text/javascript" src="js/screens/initialize.js"></script>
     <script type="text/javascript" src="js/screens/play.js"></script>
-    <!-- /build -->
+    <script type="text/javascript" src="js/screens/initialize.js"></script>
 
-    <!-- Bootstrap -->
-    <script type="text/javascript">
-        me.device.onReady(function onReady() {
-
-            game.onload();
-            me.event.subscribe(me.event.KEYDOWN, function (action, keycode) {
-                switch (keycode) {
-                    case me.input.KEY.UP:
-                    case me.input.KEY.DOWN:
-                    case me.input.KEY.LEFT:
-                    case me.input.KEY.RIGHT:
-                        hide();
-                        break;
-                }
-            });
-
-        });
-    </script>
 </body>
 
 </html>

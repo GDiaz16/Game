@@ -15,9 +15,10 @@ body {
     overflow: hidden;
 }
 
+/* Estilo del canvas del juego */
+
 #screen canvas {
     margin: auto;
-    /* Hide the gap for font descenders. */
     display: block;
     position: relative;
     background-color: aqua;
@@ -25,6 +26,8 @@ body {
     max-height: 90vh;
     top: 5vh;
 }
+
+/* Estilo de la pantalla de bienvenida------------------------------- */
 
 .screen {
     position: absolute;
@@ -43,6 +46,7 @@ body {
     font-family: 'Kavoon';
     font-size: 60px;
     text-align: center;
+    margin: 0;
 }
 
 .screen p {
@@ -61,6 +65,8 @@ body {
 .btn-play:hover {
     background-color: aqua;
 }
+
+/* Estilo de la barrade puntajes del juego */
 
 .game-screen {
     display: flex;
@@ -110,6 +116,8 @@ body {
     margin: 0;
 }
 
+/* Estilo de la pantalla de finalizacion del juego */
+
 #end-screen {
     display: none;
     right: 0vw;
@@ -117,6 +125,8 @@ body {
     padding-top: 10vh;
     background-color: rgba(17, 182, 39, 0.596);
 }
+
+/* Estilo del aviso que indica que faltan cajas */
 
 #in-game {
     display: none;
@@ -126,4 +136,54 @@ body {
     left: 20vw;
     background-color: rgba(190, 36, 36, 0.678);
     padding-left: 20vw;
+}
+
+/* Responsive */
+
+@media only screen and (max-width: 1200px) {
+    .screen p {
+        font-size: 18px;
+    }
+    .btn-play {
+        font-size: 18px;
+    }
+    .game-screen {
+        font-size: 15px;
+    }
+
+    
+}
+
+@media only screen and (max-width: 1000px) {
+    .screen p {
+        font-size: 15px;
+    }
+    .btn-play {
+        font-size: 18px;
+    }
+    .remaining-boxes {
+        margin: 2vh 1vw 2vh 2vw;
+    }
+    
+    .health {
+        margin: 2vh 1vw 2vh 1vw;
+    }
+    
+    .level {
+        margin: 2vh 1vw 2vh 1vw;
+    }
+    
+    .instructions {
+        margin: 3vh 0 2vh 0;
+    }
+    
+    .btn-inst {
+        font-size: 15px;
+        border-radius: 10px;
+        padding: 10px 10px 10px 10px;
+    }
+    
+    .credits {
+        margin: 2vh 4vw 2vh 4vw;
+    }
 }
