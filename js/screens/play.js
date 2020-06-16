@@ -8,6 +8,7 @@ game.PlayScreen = me.Stage.extend({
                 level.addTo(me.game.world, true);
                 level.orientation = 'isometric';*/
         me.sys.gravity = 0;
+        me.sys.pauseOnBlur = false;
         me.levelDirector.loadLevel("escenario3");
         me.game.viewport.currentTransform.scale(0.75);
         me.game.viewport.currentTransform.translate(200,200);

@@ -88,7 +88,6 @@ game.PlayerEntity = me.Entity.extend({
                 this.renderable.setCurrentAnimation("walk-back");
             }
         } else if (me.input.isKeyPressed('down')) {
-
             // unflip the sprite
             this.renderable.flipX(false);
             // update the entity velocity
