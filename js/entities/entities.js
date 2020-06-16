@@ -203,9 +203,9 @@ game.LevelEntity = me.Entity.extend({
                     document.getElementById('in-game').style.display = 'block';
                 } else {
                     this.updateParams(this.level);
-                    me.audio.stopTrack();
+                    //me.audio.stopTrack();
                     //comenzar nueva cancion
-                    me.audio.playTrack('SOUNDL2', 0.4);
+                    //me.audio.playTrack('SOUNDL2', 0.4);
                     me.levelDirector.loadLevel(this.level);
                 }
                 break;
@@ -215,9 +215,9 @@ game.LevelEntity = me.Entity.extend({
                     document.getElementById('in-game').style.display = 'block';
                 } else {
                     this.updateParams(this.level);
-                    me.audio.stopTrack();
+                    //me.audio.stopTrack();
                     //comenzar nueva cancion
-                    me.audio.playTrack('SOUNDL3', 0.4);
+                    //me.audio.playTrack('SOUNDL3', 0.4);
                     me.levelDirector.loadLevel(this.level);
                 }
                 break;
@@ -231,7 +231,7 @@ game.LevelEntity = me.Entity.extend({
                     document.getElementById('end-screen').style.backgroundColor = 'rgba(17, 182, 39, 0.596)';
                     document.getElementById('end-screen').style.display = 'block';
                     //detener sonido al finalizar
-                    me.audio.stopTrack();
+                    //me.audio.stopTrack();
 
 
                 }
@@ -394,7 +394,7 @@ game.EnemyEntity = me.Sprite.extend(
                 document.getElementById('description').innerHTML = '<p>Los monstruos han acabado contigo</p>';
                 document.getElementById('end-screen').style.backgroundColor = 'rgba(182, 17, 17, 0.596)';
                 document.getElementById('end-screen').style.display = 'block';
-                me.audio.stopTrack();
+                //me.audio.stopTrack();
                 newTry();
 
 
