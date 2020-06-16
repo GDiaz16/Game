@@ -30,6 +30,11 @@ game.resources = [
         "src": "data/img/sprite/box.png"
     },
     {
+        "name": "ghost",
+        "type": "image",
+        "src": "data/img/sprite/ghost.png"
+    },
+    {
         "name": "man",
         "type": "image",
         "src": "data/img/sprite/man.png"

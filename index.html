@@ -23,7 +23,7 @@
 <body>
     <!-- Canvas placeholder -->
     <div id="screen">
-        <div class="home-screen" id="home-screen">
+        <div class="screen" id="home-screen">
             <div class="title">
                 <h2>Bulder Game</h2>
             </div>
@@ -33,6 +33,8 @@
                     tesoros, cuando las hayas recolectado todas debes ir hasta la puerta, esta está señalada con una
                     flecha. Al llegar al tercer y ultimo nivel y completes las cajas podras llegar al podio y habrás
                     completado la misión.
+
+                    Usa las teclas de dirección (← →↑↓ )para desplazarte por la pista.
                 </p>
             </div>
             <button class='btn-play' onclick="hide()">Jugar</button>
@@ -49,6 +51,9 @@
             <div class="level" id="level">
                 <p>Nivel: 1/3</p>
             </div>
+            <div class="instructions">
+                <button onclick="show()" class="btn-inst">Instrucciones</button>
+            </div>
             <div class="credits" id="">
                 <p>Bulder Game </p>
                 <p>by: Gonzalo Diaz 
@@ -56,6 +61,22 @@
                 </p>
             </div>
         </div>
+
+        <div class="screen" id="end-screen">
+            <div class="title" id="result">
+                <h2>Ganaste!</h2>
+            </div>
+            <div class="introduccion" id="description">
+                <p>
+                    Conseguiste todas las cajas!
+                </p>
+            </div>
+            <button class='btn-play' onclick="restart()">Volver a jugar</button>
+        </div>
+        <div class="game-screen" id="in-game">
+            <p>Aún te faltan cajas</p>
+        </div>
+
     </div>
 
 
@@ -75,12 +96,13 @@
 
     <!-- Game Scripts -->
     <script type="text/javascript" src="js/game.js"></script>
-    <script type="text/javascript" src="build/js/resources.js"></script>
+    <script type="text/javascript" src="resources.js"></script>
 
     <script type="text/javascript" src="js/entities/entities.js"></script>
     <!--         <script type="text/javascript" src="js/entities/HUD.js"></script>
  -->
     <script type="text/javascript" src="js/screens/title.js"></script>
+    <script type="text/javascript" src="js/screens/initialize.js"></script>
     <script type="text/javascript" src="js/screens/play.js"></script>
     <!-- /build -->
 
@@ -89,6 +111,17 @@
         me.device.onReady(function onReady() {
 
             game.onload();
+            me.event.subscribe(me.event.KEYDOWN, function (action, keycode) {
+                switch (keycode) {
+                    case me.input.KEY.UP:
+                    case me.input.KEY.DOWN:
+                    case me.input.KEY.LEFT:
+                    case me.input.KEY.RIGHT:
+                        hide();
+                        break;
+                }
+            });
+
         });
     </script>
 </body>

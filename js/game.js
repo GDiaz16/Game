@@ -1,18 +1,23 @@
 
+
+
 /* Game namespace */
 var game = {
 
     // an object where to store game information
     data: {
         // score
-        score: 0
+        remainingBoxesL1: 7,
+        remainingBoxesL2: 11,
+        remainingBoxesL3: 9,
+        health: 20
     },
 
 
     // Run on page load.
     onload: function () {
         // Initialize the video.
-        if (!me.video.init(800, 600, { wrapper: "screen", scale: "auto", scaleMethod: "flex-width", renderer : me.video.AUTO, subPixel : true})) {
+        if (!me.video.init(800, 600, { wrapper: "screen", scale: "auto", scaleMethod: "flex-width" })) {
             alert("Your browser does not support HTML5 canvas.");
             return;
         }
@@ -33,7 +38,7 @@ var game = {
 
         // add our player entity in the entity pool
         me.pool.register("mainPlayer", game.PlayerEntity);
-        me.pool.register("door", game.DoorEntity);
+        me.pool.register("LevelEntity", game.LevelEntity);
         me.pool.register("box", game.BoxEntity);
         me.pool.register("EnemyEntity", game.EnemyEntity);
 
@@ -50,7 +55,7 @@ var game = {
         me.state.change(me.state.PLAY);
     }
 };
-/* 
+/*
 // "bootstrap"
 me.device.onReady(function () {
     game.onload();

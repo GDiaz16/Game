@@ -136,15 +136,6 @@ game.PlayerEntity = me.Entity.extend({
       */
     onCollision: function (response, other) {
 
-        //if(response.b.body.collisionType !== me.collision.types.ENEMY_OBJECT){
-        /*         if (response.b.body.getShape(0).overlaps(this.body.getShape())) {
-                    response.b.body.removeShapeAt(0);
-                    this.body.maxVel.y = 10;
-                    this.body.force.y = 5;
-                    //this.body.friction.y = 0;
-                    //this.body.update();
-                    this.fall = true;
-                } */
         // Make all other objects solid
         return true;
     }
@@ -160,16 +151,8 @@ game.BoxEntity = me.CollectableEntity.extend({
         // call the parent constructor
         this._super(me.Entity, 'init', [x, y, settings]);
         this.body.setShape(-128, -60);
-        //this.body.removeShapeAt(0);
         this.renderable.addAnimation("stand", [2]);
         this.renderable.setCurrentAnimation("stand");
-
-
-        //this.body.toIso();
-        //this.body.translate(385,-512);
-        //this.body.alpha = 0;
-
-        //this.body.scale(0.8);
 
     },
 
@@ -178,44 +161,103 @@ game.BoxEntity = me.CollectableEntity.extend({
     // this function is called by the engine, when
     // an object is touched by something (here collected)
     onCollision: function (response, other) {
-        // do something when collected
+        //Restar una caja al nivel en el que se encuentre
+        if (other.type == 'player') {
+            switch (me.levelDirector.getCurrentLevel().name) {
+                case 'escenario':
+                    game.data.remainingBoxesL1 = game.data.remainingBoxesL1 - 1;
+                    document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL1 + '</p>';
 
-        // make sure it cannot be collected "again"
-        //this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+                    break;
+                case 'escenario2':
+                    game.data.remainingBoxesL2 = game.data.remainingBoxesL2 - 1;
+                    document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL2 + '</p>';
 
-        // remove it
-        me.game.world.removeChild(this);
+                    break;
+                case 'escenario3':
+                    game.data.remainingBoxesL3 = game.data.remainingBoxesL3 - 1;
+                    document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL3 + '</p>';
+
+                    break;
+            }
+            // Remover una caja cuando se toca
+            me.game.world.removeChild(this);
+        }
+
+
 
         return false
     }
 });
 
-game.DoorEntity = me.Entity.extend({
+game.LevelEntity = me.Entity.extend({
     // extending the init function is not mandatory
     // unless you need to add some extra initialization
     init: function (x, y, settings) {
+        this.level = settings.nextLevel;
         // call the parent constructor
         this._super(me.Entity, 'init', [x, y, settings]);
-        this.body.removeShapeAt(0);
-        //this.body.toIso();
-        this.body.translate(385, -512);
-        this.body.alpha = 0;
-
-        //this.body.scale(0.8);
-
     },
 
+    updateParams: function () {
+        switch (this.level) {
+            case 'escenario':
+                document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL1 + '</p>';
+                document.getElementById('level').innerHTML = '<p>Nivel: 1/3</p>';
+
+                break;
+            case 'escenario2':
+                document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL2 + '</p>';
+                document.getElementById('level').innerHTML = '<p>Nivel: 2/3</p>';
+
+                break;
+            case 'escenario3':
+                document.getElementById('rem-boxes').innerHTML = '<p>Cajas faltantes: +' + game.data.remainingBoxesL3 + '</p>';
+                document.getElementById('level').innerHTML = '<p>Nivel: 3/3</p>';
+
+                break;
+
+        }
+    },
+
+
     // this function is called by the engine, when
-    // an object is touched by something (here collected)
+    // an object is touched by something 
     onCollision: function (response, other) {
-        // do something when collected
+        switch (this.level) {
 
-        // make sure it cannot be collected "again"
-        //this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+            case 'escenario2':
+                if (game.data.remainingBoxesL1 > 0) {
+                    document.getElementById('in-game').style.display = 'block';
+                } else {
+                    this.updateParams(this.level);
+                    me.levelDirector.loadLevel(this.level);
+                }
+                break;
 
-        // remove it
-        me.game.world.removeChild(this);
+            case 'escenario3':
+                if (game.data.remainingBoxesL2 > 0) {
+                    document.getElementById('in-game').style.display = 'block';
+                } else {
+                    this.updateParams(this.level);
+                    me.levelDirector.loadLevel(this.level);
+                }
+                break;
+            case 'end':
+                if (game.data.remainingBoxesL3 > 0) {
+                    document.getElementById('in-game').style.display = 'block';
+                } else {
+                    document.getElementById('result').innerHTML = '<h2>Ganaste!!</h2>';
+                    document.getElementById('description').innerHTML = '<p>Completaste todas las cajas y los monstruos no pudieron contigo</p>';
+                    document.getElementById('end-screen').style.backgroundColor = 'rgba(17, 182, 39, 0.596)';
+                    document.getElementById('end-screen').style.display = 'block';
 
+                }
+                break;
+
+
+
+        }
         return false
     }
 });
@@ -226,7 +268,7 @@ game.EnemyEntity = me.Sprite.extend(
             // save the area size as defined in Tiled
             var width = settings.width;
             var height = settings.height;
-
+            this.lastTime = 0;
             // define this here instead of tiled
             settings.image = "ghost";
 
@@ -241,12 +283,12 @@ game.EnemyEntity = me.Sprite.extend(
             // add a physic body
             this.body = new me.Body(this);
             // add a default collision shape
-            this.body.addShape(new me.Rect(this.width/3, this.height/2, this.width/2, this.height/2));
+            this.body.addShape(new me.Rect(this.width / 3, this.height / 2, this.width / 2, this.height / 2));
             // configure max speed and friction
             this.body.setMaxVelocity(3, 1.5);
             this.body.setFriction(0.4, 0.2);
             // enable physic collision (off by default for basic me.Renderable)
-            //this.isKinematic = false;
+            this.isKinematic = false;
 
             this.addAnimation("walk-view-down", [1, 2, 3, 4, 5, 6, 7, 8]);
             this.addAnimation("walk-view-up", [9, 10, 11, 12, 13, 14, 15, 16, 17]);
@@ -255,7 +297,7 @@ game.EnemyEntity = me.Sprite.extend(
 
             if (this.UpDown) {
                 // set start/end position based on the initial area size
-                x = this.pos.x-2*this.width;
+                x = this.pos.x - 2 * this.width;
                 this.startX = x;
                 this.pos.x = this.endX = x + width - this.width;
 
@@ -264,11 +306,11 @@ game.EnemyEntity = me.Sprite.extend(
                 this.pos.y = this.endY = y + height - this.height;
             } else {
                 // set start/end position based on the initial area size
-                x = this.pos.x ;//+ this.height;
+                x = this.pos.x;//+ this.height;
                 this.startX = x;
                 this.pos.x = this.endX = x + width - this.width;
 
-                y = this.pos.y +this.height;//-height;
+                y = this.pos.y + this.height;//-height;
                 this.startY = y;//-2*height;
                 this.pos.y = this.endY = y + height - this.height;
             }
@@ -322,7 +364,7 @@ game.EnemyEntity = me.Sprite.extend(
                 if (this.alive) {
                     //this.setCurrentAnimation("walk-view-down");
 
-                    if (this.walkLeft && this.pos.x <= this.startX-this.width) {
+                    if (this.walkLeft && this.pos.x <= this.startX - this.width) {
                         this.walkLeft = false;
                         this.body.force.x = this.body.maxVel.x;
                         this.body.force.y = this.body.maxVel.y;
@@ -365,15 +407,27 @@ game.EnemyEntity = me.Sprite.extend(
          * (called when colliding with other objects)
          */
         onCollision: function (response, other) {
-            if (response.b.body.collisionType !== me.collision.types.WORLD_SHAPE) {
-                // res.y >0 means touched by something on the bottom
-                // which mean at top position for this one
-                if (this.alive && (response.overlapV.y > 0) && response.a.body.falling) {
-                    this.renderable.flicker(750);
+            //Reducir el puntaje de salud
+            if (game.data.health >= 1 && other.type == 'player') {
+                var d = new Date();
+                if (d.getTime() - this.lastTime > 600) {
+                    console.log(d.getTime() - this.lastTime);
+
+                    this.lastTime = d.getTime();
+                    game.data.health = game.data.health - 1;
+                    document.getElementById('health').innerHTML = '<p>Salud: +' + game.data.health + '</p>';
                 }
+            } else if (game.data.health <= 1) {
+                document.getElementById('result').innerHTML = '<h2>Perdiste</h2>';
+                document.getElementById('description').innerHTML = '<p>Los monstruos han acabado contigo</p>';
+                document.getElementById('end-screen').style.backgroundColor = 'rgba(182, 17, 17, 0.596)';
+                document.getElementById('end-screen').style.display = 'block';
+
+            }
+            if (response.b.body.collisionType !== me.collision.types.WORLD_SHAPE) {
                 return false;
             }
             // Make all other objects solid
-            return true;
+            return false;
         }
     });
